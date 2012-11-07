@@ -4,6 +4,7 @@
  *  Outputs: message
  *  Created on: Oct 31, 2012 by Michael Shaw
  *  Modified 11/6/2012 Richard Fahey.
+ *  Refined 11/7/2012 Michael Shaw
  */
 
 #include <iostream>
@@ -14,7 +15,7 @@ using namespace std;
 // prototypes
 int get_input_file(ifstream& infile);
 void get_inputs (ifstream& infile, int& s1, int& s2, int& s3,int& s4);
-int calcAverage(int s1, int s2, int s3, int s4);
+int calcAverage(int s1, int s2, int s3, int s4, int lowest);
 char determineGrade(int n);
 void minScore(int s2, int s3, int s4, int &min);
 
@@ -36,13 +37,17 @@ int main() {
         //output scores as grades and the average grade
         cout << "Grade set " << i + 1 << ": " << determineGrade(s1) << " " << determineGrade(s2) << " "
                 << determineGrade(s3) << " " << determineGrade(s4) << endl;
-        average = determineGrade(calcAverage(s1,s2,s3,s4));
-        cout << "Average grade = " << average << endl;
-
-        //finds lowest grade and outputs
+        
+        //finds lowest grade first since we have this function
         min = s1;
         minScore(s2, s3, s4, min);
-        cout << "Lowest grade: " << determineGrade(min) << endl << endl;
+        
+        average = determineGrade(calcAverage(s1,s2,s3,s4, min));
+        cout << "Average grade = " << average << endl;
+
+
+        //output lowest grade
+        cout << "Lowest grade = " << determineGrade(min) << endl << endl;
 
 
 
@@ -79,19 +84,11 @@ void get_inputs (ifstream &infile, int &s1, int &s2, int &s3,int &s4) {
 
 // Calculates the average of four numbers casted as int
 // takes 4 scores as integer arguments and returns the average as a double by dropping the lowest score.
-int calcAverage(int s1, int s2, int s3, int s4) {
+int calcAverage(int s1, int s2, int s3, int s4, int lowest) {
     double temp;
- // begin mod Richard Fahey. 11/6/2012
-    if (s1 <= s2 && s1 <= s3 &&  s1<= s4)
-      temp = s2 + s3 + s4;
-    else if (s2 <= s1 && s2 <= s3 &&  s2<= s4)
-      temp = s1 + s3 + s4;
-    else if (s3 <= s1 && s3 <= s2 &&  s3<= s4)
-      temp = s1 + s2 + s4;
-    else   // (s4 <= s1 && s4 <= s3 &&  s4<= s1)
-      temp = s1 + s2+ s3;
-    temp = temp / 3;  // Minus the lowest value.
- //   temp = temp / 4;
+    temp = s1 + s2+ s3 + s4 - lowest;
+    temp = temp / 3;  // 4 values minus the lowest value.
+
     return int(temp);
 }
 
