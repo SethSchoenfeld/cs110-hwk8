@@ -14,7 +14,7 @@ using namespace std;
 // prototypes
 int get_input_file(ifstream& infile);
 void get_inputs (ifstream& infile, int& s1, int& s2, int& s3,int& s4);
-int calcAverage(int s1, int s2, int s3, int s4, int lowest);
+int calcAverage(int s1, int s2, int s3, int s4);
 char determineGrade(int n);
 void minScore(int s2, int s3, int s4, int &min);
 
@@ -33,19 +33,15 @@ int main() {
     for (int i = 0; i < scoreSets; i++) {
         get_inputs (infile, s1, s2, s3, s4);
 
-        //output scores as grades
+        //output scores as grades and the average grade
         cout << "Grade set " << i + 1 << ": " << determineGrade(s1) << " " << determineGrade(s2) << " "
                 << determineGrade(s3) << " " << determineGrade(s4) << endl;
-        //find lowest score
-        min = s1;
-        minScore(s2, s3, s4, min);
-        
-        //calculate average minus lowest grade
-        average = determineGrade(calcAverage(s1, s2, s3, s4, min));
+        average = determineGrade(calcAverage(s1,s2,s3,s4));
         cout << "Average grade = " << average << endl;
 
         //finds lowest grade and outputs
-        
+        min = s1;
+        minScore(s2, s3, s4, min);
         cout << "Lowest grade: " << determineGrade(min) << endl << endl;
 
 
